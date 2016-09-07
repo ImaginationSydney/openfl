@@ -180,6 +180,7 @@ extern class Event {
 	
 	#if air
 	public static var EXITING : String;
+	public static var CLOSING : String;
 	#end
 	
 	#if flash
