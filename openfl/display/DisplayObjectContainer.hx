@@ -15,6 +15,7 @@ import openfl.geom.Rectangle;
 @:access(openfl.events.Event)
 @:access(openfl.display.Graphics)
 @:access(openfl.geom.Rectangle)
+@:access(openfl.display.Stage)
 
 
 class DisplayObjectContainer extends InteractiveObject {
@@ -64,9 +65,10 @@ class DisplayObjectContainer extends InteractiveObject {
 			child.__setRenderDirty ();
 			__setRenderDirty();
 			
-			var event = new Event (Event.ADDED, true);
-			event.target = child;
-			child.__dispatchEvent (event);
+			//var event = new Event (Event.ADDED, true);
+			//event.target = child;
+			//child.__dispatchEvent (event);
+			Stage.__fireStackEvent (new Event (Event.ADDED, true), child);
 			
 		}
 		
@@ -109,9 +111,10 @@ class DisplayObjectContainer extends InteractiveObject {
 			child.__setRenderDirty ();
 			__setRenderDirty();
 			
-			var event = new Event (Event.ADDED, true);
-			event.target = child;
-			child.__dispatchEvent (event);
+			//var event = new Event (Event.ADDED, true);
+			//event.target = child;
+			//child.__dispatchEvent (event);
+			Stage.__fireStackEvent (new Event (Event.ADDED, true), child);
 			
 		}
 		
@@ -195,7 +198,8 @@ class DisplayObjectContainer extends InteractiveObject {
 		
 		if (child != null && child.parent == this) {
 			
-			child.__dispatchEvent (new Event (Event.REMOVED, true));
+			//child.__dispatchEvent (new Event (Event.REMOVED, true));
+			Stage.__fireStackEvent (new Event (Event.REMOVED, true), this);
 			
 			if (stage != null) {
 				
@@ -631,7 +635,10 @@ class DisplayObjectContainer extends InteractiveObject {
 		
 		if (scrollRect != null) {
 			
-			renderSession.maskManager.pushRect (scrollRect, __worldTransform);
+			var rect = scrollRect.clone();
+			rect.x = 0;
+			rect.y = 0;
+			renderSession.maskManager.pushRect (rect, __worldTransform);
 			
 		}
 		
@@ -776,7 +783,9 @@ class DisplayObjectContainer extends InteractiveObject {
 			
 			if (this.stage != null) {
 				
-				__dispatchEvent (new Event (Event.REMOVED_FROM_STAGE, false, false));
+				//__dispatchEvent (new Event (Event.REMOVED_FROM_STAGE, false, false));
+				
+				Stage.__fireStackEvent (new Event (Event.REMOVED_FROM_STAGE, false, false), this);
 				
 			}
 			
@@ -784,7 +793,9 @@ class DisplayObjectContainer extends InteractiveObject {
 			
 			if (stage != null) {
 				
-				__dispatchEvent (new Event (Event.ADDED_TO_STAGE, false, false));
+				//__dispatchEvent (new Event (Event.ADDED_TO_STAGE, false, false));
+				
+				Stage.__fireStackEvent (new Event (Event.ADDED_TO_STAGE, false, false), this);
 				
 			}
 			

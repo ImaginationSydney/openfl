@@ -784,8 +784,17 @@ class Stage extends DisplayObjectContainer implements IModule {
 		
 	}
 	
+	private static function __fireStackEvent (event:Event, target:DisplayObject):Void {
+		
+		var stack:Array<DisplayObject> = [];
+		while (target != null){
+			stack.unshift(target);
+			target = target.parent;
+		}
+		__fireEvent (event, stack);
+	}
 	
-	private function __fireEvent (event:Event, stack:Array<DisplayObject>):Void {
+	private static function __fireEvent (event:Event, stack:Array<DisplayObject>):Void {
 		
 		var length = stack.length;
 		
