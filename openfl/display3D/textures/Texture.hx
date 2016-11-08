@@ -136,5 +136,29 @@ using openfl.display.BitmapData;
 		
 	}
 	
+	#if js
+	public function uploadFromVideo (video:js.html.VideoElement, miplevel:Int = 0):Void {
+		
+		GL.bindTexture (GL.TEXTURE_2D, glTexture);
+		
+		if (optimizeForRenderToTexture) {
+			
+			GL.pixelStorei (GL.UNPACK_FLIP_Y_WEBGL, 1);
+			GL.texParameteri (GL.TEXTURE_2D, GL.TEXTURE_MAG_FILTER, GL.NEAREST);
+			GL.texParameteri (GL.TEXTURE_2D, GL.TEXTURE_MIN_FILTER, GL.NEAREST);
+			GL.texParameteri (GL.TEXTURE_2D, GL.TEXTURE_WRAP_S, GL.CLAMP_TO_EDGE);
+			GL.texParameteri (GL.TEXTURE_2D, GL.TEXTURE_WRAP_T, GL.CLAMP_TO_EDGE);
+			
+		}
+		
+		var context:js.html.webgl.RenderingContext = untyped GL.context;
+		
+		//context.texImage2D (GL.TEXTURE_2D, miplevel, internalFormat, internalFormat, GL.UNSIGNED_BYTE, video);
+		context.texImage2D (3553, 0, 6407, 6407, 5121, video);
+		GL.bindTexture (GL.TEXTURE_2D, null);
+		
+	}
+	#end
+	
 	
 }
